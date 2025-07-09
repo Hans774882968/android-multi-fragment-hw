@@ -32,6 +32,19 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    // 修改APK文件名
+    applicationVariants.all {
+        val variant = this
+        val buildType = variant.buildType
+        val version = variant.versionName
+
+        variant.outputs
+            .filterIsInstance<com.android.build.gradle.internal.api.BaseVariantOutputImpl>()
+            .forEach { output ->
+                output.outputFileName = "multi-frag-hw-${buildType.name}-v${version}.apk"
+            }
+    }
 }
 
 dependencies {

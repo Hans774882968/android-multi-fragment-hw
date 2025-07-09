@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "这是一条通知", Snackbar.LENGTH_LONG)
                         .setAnchorView(R.id.fab)
                         .setAction("Action", null).show();
             }
@@ -62,6 +62,18 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            View rootView = binding.getRoot();
+            Snackbar.make(rootView, "设置选项被点击了~", Snackbar.LENGTH_LONG)
+                    .setAction("确定", null)
+                    .show();
+            return true;
+        }
+
+        if (id == R.id.action_new_item) {
+            Snackbar.make(binding.fab, "新条目被点击了~通知出现位置和邮箱图标被点击时一致", Snackbar.LENGTH_LONG)
+                    .setAnchorView(R.id.fab)
+                    .setAction("确定", null)
+                    .show();
             return true;
         }
 
