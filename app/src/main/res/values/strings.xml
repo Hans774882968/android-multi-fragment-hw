@@ -3,15 +3,12 @@
     <string name="action_settings">设置</string>
     <string name="action_new_item">新条目</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">第一个页面</string>
+    <string name="first_fragment_label">创建Jira单</string>
     <string name="second_fragment_label">第二个页面</string>
     <string name="third_fragment_label">第三个页面</string>
     <string name="next">下一页</string>
     <string name="previous">上一页</string>
 
-    <string name="text_page_1">
-        第一页的文本
-    </string>
     <string name="text_page_2">
         第二页的文本
     </string>

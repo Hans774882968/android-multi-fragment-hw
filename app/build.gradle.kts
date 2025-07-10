@@ -8,7 +8,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.helloworld"
-        minSdk = 24
+        // Call requires API level 26 (current min is 24): android.widget.DatePicker#setOnDateChangedListener
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"

@@ -6,30 +6,167 @@
     android:layout_height="match_parent"
     tools:context=".FirstFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/button_first"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/next"
-            app:layout_constraintBottom_toTopOf="@id/textview_first"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="@string/next" />
 
         <TextView
-            android:id="@+id/textview_first"
+            android:id="@+id/project_belong_to_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/text_page_1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_first" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:text="所属项目：" />
+        <EditText
+            android:id="@+id/project_belong_to"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="所属项目" />
+
+        <TextView
+            android:id="@+id/question_type_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="问题类型：" />
+        <Spinner
+            android:id="@+id/question_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/jira_abstract_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="摘要：" />
+        <EditText
+            android:id="@+id/jira_abstract"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="摘要" />
+
+        <TextView
+            android:id="@+id/priority_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="优先级：" />
+        <Spinner
+            android:id="@+id/priority"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/reporter_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="报告人：" />
+        <EditText
+            android:id="@+id/reporter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="报告人" />
+
+        <TextView
+            android:id="@+id/assignee_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="经办人：" />
+        <EditText
+            android:id="@+id/assignee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="经办人" />
+
+        <TextView
+            android:id="@+id/status_spinner_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="状态：" />
+        <Spinner
+            android:id="@+id/status_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/due_date_picker_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="截止日期：" />
+        <DatePicker
+            android:id="@+id/due_date_picker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner" />
+
+        <TextView
+            android:id="@+id/update_date_picker_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="更新日期：" />
+        <DatePicker
+            android:id="@+id/update_date_picker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner" />
+
+        <TextView
+            android:id="@+id/project_belong_to_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="所属项目：" />
+        <TextView
+            android:id="@+id/question_type_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="问题类型：" />
+        <TextView
+            android:id="@+id/jira_abstract_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="摘要：" />
+        <TextView
+            android:id="@+id/priority_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="优先级：" />
+        <TextView
+            android:id="@+id/reporter_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="报告人：" />
+        <TextView
+            android:id="@+id/assignee_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="经办人：" />
+        <TextView
+            android:id="@+id/status_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="状态：" />
+        <TextView
+            android:id="@+id/due_date_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="截止日期：" />
+        <TextView
+            android:id="@+id/update_date_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="更新日期：" />
+        <TextView
+            android:id="@+id/create_date_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="创建日期：" />
+    </LinearLayout>
 </androidx.core.widget.NestedScrollView>

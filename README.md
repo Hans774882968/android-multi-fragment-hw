@@ -160,7 +160,7 @@ public class SecondFragment extends Fragment {
 }
 ```
 
-### 进阶：新增两个反馈弹框
+### 进阶1：使用Snackbar：新增两个反馈弹框
 
 `app\src\main\res\menu\menu_main.xml`新增一个可供点击的条目：
 
@@ -215,6 +215,233 @@ public class SecondFragment extends Fragment {
     }
 ```
 
+### 进阶2：熟悉常用表单控件：实现一个简单的Jira表单
+
+效果：
+
+![](./README_assets/5-1-创建Jira单1.png)
+
+![](./README_assets/5-2-创建Jira单2.png)
+
+我在obsidian用templater插件写过一个Jira单的demo，如下：
+
+![](./README_assets/4-jira表单灵感来源.png)
+
+我们在此实现一个类似上图的简单的Jira表单。这次将会用到：
+
+- EditText
+- DatePicker
+- Spinner
+
+我主要是看[参考链接3](https://www.xinbaoku.com/archive/0Aa3CxC6.html)熟悉它们的用法。我首先手打了前4个字段的代码，如下（`app\src\main\java\com\example\helloworld\FirstFragment.java`）：
+
+```java
+package com.example.helloworld;
+
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+
+import com.example.helloworld.databinding.FragmentFirstBinding;
+
+public class FirstFragment extends Fragment {
+
+    private FragmentFirstBinding binding;
+    private static final String[] questionTypeOptions = new String[] { "故事", "任务", "改进", "Bug", "Epic", "子任务" };
+    private static final String[] priorityOptions = new String[] { "Highest", "High", "Medium", "Low", "Lowest" };
+
+    @Override
+    public View onCreateView(
+            @NonNull LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+
+        binding = FragmentFirstBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+
+    }
+
+    private void setupSpinnerListeners(Spinner spinner, ArrayAdapter<String> adapter, TextView textView,
+            String fieldName) {
+        spinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String text = fieldName + "：" + adapter.getItem(position);
+                textView.setText(text);
+                parent.setVisibility(View.VISIBLE);
+            }
+
+            public void onNothingSelected(AdapterView<?> arg0) {
+                String text = "None";
+                textView.setText(text);
+                arg0.setVisibility(View.VISIBLE);
+            }
+        });
+
+        spinner.setOnFocusChangeListener((v, hasFocus) -> v.setVisibility(View.VISIBLE));
+    }
+
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        binding.buttonFirst.setOnClickListener(v -> NavHostFragment.findNavController(FirstFragment.this)
+                .navigate(R.id.action_FirstFragment_to_SecondFragment));
+
+        binding.projectBelongTo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String text = "所属项目：" + binding.projectBelongTo.getText().toString();
+                binding.projectBelongToText.setText(text);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        ArrayAdapter<String> questionTypeAdapter = new ArrayAdapter<>(requireActivity(),
+                android.R.layout.simple_dropdown_item_1line, questionTypeOptions);
+        questionTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.questionType.setAdapter(questionTypeAdapter);
+        setupSpinnerListeners(binding.questionType, questionTypeAdapter, binding.questionTypeText, "问题类型");
+
+        binding.jiraAbstract.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String text = "摘要：" + binding.jiraAbstract.getText().toString();
+                binding.jiraAbstractText.setText(text);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        ArrayAdapter<String> priorityAdapter = new ArrayAdapter<>(requireActivity(),
+                android.R.layout.simple_dropdown_item_1line, priorityOptions);
+        priorityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.priority.setAdapter(priorityAdapter);
+        setupSpinnerListeners(binding.priority, priorityAdapter, binding.priorityText, "优先级");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+}
+```
+
+然后让DeepSeek仿照着生成剩下的代码：
+
+```markdown
+大佬，你是一名专家安卓工程师，精通安卓App项目研发全流程。请叫我hans7。我有一个安卓项目，请参考现有的 app\src\main\java\com\example\helloworld\FirstFragment.java 和 app\src\main\res\layout\fragment_first.xml ，帮我继续往下添加以下字段：
+
+- 报告人：EditText
+- 经办人：EditText
+- 截止日期：DatePicker
+- 状态：Spinner。选项有：['待办', 'PRD', '技术方案', '开发中', '联调中', '测试', 'UAT', 'Done']
+- 更新日期：DatePicker
+
+以上字段都包含一个对应的TextView控件。另外，还需要在最底下增加一个TextView控件，“创建日期”，自动填充初始值为当前日期。
+
+## 实现要求
+
+1. 遵循Don't Repeat Yourself原则，封装重复代码。
+2. 仍然使用目前的布局方式：`androidx.constraintlayout.widget.ConstraintLayout`
+```
+
+生成代码的质量还是不错的，但是这个提示词忘记强调最小改动原则之类的，所以生成的代码还是不能全部复制过来。另外，还遇到了一个报错：“Call requires API level 26 (current min is 24): android.widget.DatePicker#setOnDateChangedListener”我问了DeepSeek，拿到了下面的代码：
+
+```java
+    private void setupDatePickerListener(DatePicker datePicker, TextView textView, String prefix) {
+        // 初始化日期显示
+        updateDateText(datePicker, textView, prefix);
+        
+        // 设置点击监听器（兼容所有API版本）
+        datePicker.setOnClickListener(v -> {
+            updateDateText(datePicker, textView, prefix);
+        });
+        
+        // 为日期选择器的每个部分添加监听
+        try {
+            ViewGroup picker = (ViewGroup) datePicker.getChildAt(0);
+            for (int i = 0; i < picker.getChildCount(); i++) {
+                View child = picker.getChildAt(i);
+                if (child instanceof NumberPicker) {
+                    ((NumberPicker) child).setOnValueChangedListener((pickerView, oldVal, newVal) -> {
+                        updateDateText(datePicker, textView, prefix);
+                    });
+                }
+            }
+        } catch (Exception e) {
+            // 备用方案：使用轮询（不推荐但作为后备）
+            datePicker.postDelayed(() -> updateDateText(datePicker, textView, prefix), 100);
+        }
+    }
+```
+
+对比原版：
+
+```java
+    private void setupDatePickerListener(DatePicker datePicker, TextView textView, String prefix) {
+        // 初始化日期显示
+        updateDateText(datePicker, textView, prefix);
+
+        datePicker.setOnDateChangedListener((view, year, monthOfYear, dayOfMonth) -> {
+            String dateStr = prefix + "："
+                    + String.format(Locale.getDefault(), "%d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
+            textView.setText(dateStr);
+        });
+    }
+```
+
+复杂多了。实测这段代码是有bug的，用不了。并且还考虑到在 https://apilevels.com/ 里查到，API Level 26的机子已经占94.8%，决定还是直接改`app\build.gradle.kts`的`minSdk`为26。
+
+```kotlin
+android {
+    namespace = "com.example.helloworld"
+    compileSdk = 35
+
+    defaultConfig {
+        applicationId = "com.example.helloworld"
+        // Call requires API level 26 (current min is 24): android.widget.DatePicker#setOnDateChangedListener
+        minSdk = 26
+        targetSdk = 35
+        versionCode = 1
+        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
+```
+
+但我的夜神模拟器是Android 7，只能去更新模拟器了。[下载地址](https://tw.bignox.com/)。
+
 ## 打包前修改打包配置
 
 我没有安卓基础，所以问了DeepSeek。提示词：“大佬，你是一名专家安卓工程师，精通安卓App打包流程。请叫我hans7。请问我该如何修改build.gradle.kts，使得打包出的App的文件名是multi-frag-hw-${buildType.name}-v${versionName}，并使得它在手机上显示App名为Multi Frag Hw？然后请告诉我如何打包App。”
@@ -256,3 +483,4 @@ public class SecondFragment extends Fragment {
 
 1. 【Android】使用Android Studio打包APK文件： https://www.cnblogs.com/R-bear/p/18076127
 2. 阿里云云效maven： https://maven.aliyun.com/mvn/guide
+3. 下拉框Spinner参考代码： https://www.xinbaoku.com/archive/0Aa3CxC6.html
